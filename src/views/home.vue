@@ -14,7 +14,7 @@
             <li @click='opinionTab("job")'>招聘</li> -->
           </ul>
         </div>
-        <div class="home-content" id="topic">
+        <div class="home-content">
           <div class="topic" v-for='item in allList'>
             <Row :gutter='24'>
               <Col span='20'>
@@ -43,15 +43,31 @@
               </Col>
             </Row>
           </div>
+          <div class="demo-spin-col"  v-if='loading'>
+            <Spin >
+             <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+              <div>Loading</div>
+            </Spin>
+          </div>
         </div>
       </div>
     </div>
+    <BackTop></BackTop>
   </div>
 </template>
+<style>
+  .demo-spin-col{
+    padding: 12px 0;      
+  }
+  .demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
+  }
+</style>
 <script>
   export default {
     data () {
       return {
+        loading: true,
         activeIndex: 0,
         tab: '',
         tabList: {
@@ -67,6 +83,11 @@
         allList: []
       }
     },
+    // watch: {
+    //   loading() {
+    //     console.log(this.loading)
+    //   }
+    // },
     filters: {
       tabType (val) {
         switch (val) {
@@ -89,6 +110,7 @@
         this.page = 1
         this.allList = []
         this.activeIndex = index
+        this.loading = !this.loading
         this.getData()
       },
       getData () {
@@ -103,7 +125,7 @@
           }
         }).then((res) => {
           this.allList = this.allList.concat(res.data.data)
-          console.log(this.allList)
+          this.loading = !this.loading
         }).catch((res) => {
           console.log('UserCom.vue: ', res)
         })
@@ -118,6 +140,7 @@
         // console.log(clientH + scrollT)
         if (clientH + scrollT >= scrollH) {
           this.page += 1
+          this.loading = !this.loading
           this.getData()
         }
       }
