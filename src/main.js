@@ -11,13 +11,15 @@ import './assets/styles/all.less'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
-Vue.prototype.$token = '7AE5A-45CEA-984A4-31594'
+Vue.prototype.$token = '66c267cd-a0a3-451c-858b-137c9f97998e'
 
 Vue.use(VueAxios, axios)
 Vue.use(iView)
 
+let url = 'https://cnodejs.org/api/v1/'
 Vue.prototype.Url = {
-  getTopics: 'https://cnodejs.org/api/v1/topics'
+  getTopics: `${url}topics`,
+  login: `${url}accesstoken`
 }
 
 /* eslint-disable no-new */

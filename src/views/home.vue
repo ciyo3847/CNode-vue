@@ -14,7 +14,7 @@
             <li @click='opinionTab("job")'>招聘</li> -->
           </ul>
         </div>
-        <div class="home-content">
+        <div class="topic-list">
           <div class="topic" v-for='item in allList'>
             <Row :gutter='24'>
               <Col span='20'>
@@ -25,7 +25,7 @@
                   </ul>
                 </div>
                 <div class="topic-title">
-                  {{ item.title }}
+                  <router-link :to='{ name: "topic", params: { topicId: item.id}}'>{{ item.title }}</router-link>
                 </div>
                 <div class="topic-icon">
                   <span>
@@ -57,7 +57,7 @@
 </template>
 <style>
   .demo-spin-col{
-    padding: 12px 0;      
+    padding: 12px 0;
   }
   .demo-spin-icon-load{
     animation: ani-demo-spin 1s linear infinite;

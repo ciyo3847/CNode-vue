@@ -6,29 +6,52 @@
         <ul>
           <li><router-link to='/'>首页</router-link></li>
           <li>发表</li>
-          <!-- <li>
-            <Dropdown>
-              <a href="javascript:void(0)">
-                英雄
-                <Icon type="arrow-down-b"></Icon>
-              </a>
-              <DropdownMenu slot="list">
-                <DropdownItem>全部英雄</DropdownItem>
-                <DropdownItem><router-link to='/hero/free-hero'>本周限免英雄</router-link></DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </li> -->
           <li>消息</li>
         </ul>
       </div>
       <div class="extra">
-        <a href="javascript:;"><!-- Built with Vue.js -->登录</a>
+        <!-- <a href="javascript:;" @click='login = true'>登录</a> -->
+        <div class="user-info">
+          <span class="name ivu-mar-r-s">{{authorList.loginname}}</span>
+          <img :src='authorList.avatar_url' alt="" class="avatar-img">
+        </div>
       </div>
     </div>
+    <Modal
+        title="登录"
+        v-model="login"
+        class="ivu-modal-nofooter">
+        <login></login>
+    </Modal>
   </div>
 </template>
 <script>
+  import login from './login'
   export default {
+    data () {
+      return {
+        login: false,
+        authorList: []
+      }
+    },
+    components: {
+      login
+    },
+    methods: {
 
+    },
+    mounted () {
+      this.$http({
+          url: this.Url.login,
+          method: 'post',
+          params: {
+            accesstoken: this.$token
+          }
+        }).then((res) => {
+          this.authorList = res.data
+        }).catch((res) => {
+          console.log('UserCom.vue: ', res)
+        })
+    }
   }
 </script>
