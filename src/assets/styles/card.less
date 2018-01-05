@@ -1,0 +1,26 @@
+@card-prefix-cls: ~"@{css-prefix}card";
+.@{card-prefix-cls}{
+  margin-bottom: @padding-base * 4;
+  &-head{
+    padding: @padding-base * 4;
+  }
+  &-body{
+    padding: @padding-base * 4;
+  }
+  &-base{
+    .ivu-card-head{
+      background-color: lighten(@background-color, 2.5%);
+    }
+  }
+  &-nopad{
+    .ivu-card-head{
+      padding:0!important;
+    }
+    .ivu-card-body{
+      padding: 0!important;
+    }
+  }
+  .border-top:first-child{
+    border-top: none;
+  }
+}

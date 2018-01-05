@@ -18,7 +18,8 @@ Vue.use(iView)
 
 let url = 'https://cnodejs.org/api/v1/'
 Vue.prototype.Url = {
-  getTopics: `${url}topics`,
+  getTopicList: `${url}topics`,
+  getTopic: `${url}topic/`,
   login: `${url}accesstoken`
 }
 

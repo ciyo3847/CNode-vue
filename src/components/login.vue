@@ -48,7 +48,7 @@
           this.authorList = res.data
           sessionStorage.token = this.formInline.token
           this.$Message.success('Success!')
-          this.$router.push({name : "home"})
+          this.$router.push({name: 'home'})
         }).catch((res) => {
           console.log('UserCom.vue: ', res)
         })

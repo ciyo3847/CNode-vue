@@ -1,9 +1,9 @@
 <template>
   <div class="content">
     <div class="container">
-      <div class="home">
-        <div class="home-nav">
-          <ul>
+      <Card class="ivu-card-nopad">
+        <div slot="title" class="ivu-pad-s">
+          <ul class="li-col list-nav">
             <li v-for='(item, index) in tabList' :key='index' @click='opinionTab(item, index)' :class=' activeIndex == index ? "active" : "" '>
               {{ item | tabType }}
             </li>
@@ -16,17 +16,15 @@
         </div>
         <div class="topic-list">
           <div class="topic" v-for='item in allList'>
-            <Row :gutter='24'>
+            <Row :gutter='24' type="flex" align="middle">
               <Col span='20'>
-                <div class="topic-info">
-                  <ul>
-                    <li>{{ item.author.loginname }}</li>
-                    <li>{{ item.tab }}</li>
-                  </ul>
-                </div>
-                <div class="topic-title">
+                <ul class="li-col li-after-cicle">
+                  <li>{{ item.author.loginname }}</li>
+                  <li>{{ item.tab }}</li>
+                </ul>
+                <h2>
                   <router-link :to='{ name: "topic", params: { topicId: item.id}}'>{{ item.title }}</router-link>
-                </div>
+                </h2>
                 <div class="topic-icon">
                   <span>
                     <Icon type="ios-eye ivu-mar-r-xs" size='16'></Icon>
@@ -50,9 +48,8 @@
             </Spin>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
-    <BackTop></BackTop>
   </div>
 </template>
 <style>
@@ -115,7 +112,7 @@
       },
       getData () {
         this.$http({
-          url: this.Url.getTopics,
+          url: this.Url.getTopicList,
           method: 'get',
           params: {
             tab: this.tab,

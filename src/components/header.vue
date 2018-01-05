@@ -3,7 +3,7 @@
     <div class="container">
       <div class="nav">
         <img src="" alt="" class="logo">
-        <ul>
+        <ul class="li-col">
           <li><router-link to='/'>首页</router-link></li>
           <li>发表</li>
           <li>消息</li>
@@ -42,16 +42,16 @@
     },
     mounted () {
       this.$http({
-          url: this.Url.login,
-          method: 'post',
-          params: {
-            accesstoken: this.$token
-          }
-        }).then((res) => {
-          this.authorList = res.data
-        }).catch((res) => {
-          console.log('UserCom.vue: ', res)
-        })
+        url: this.Url.login,
+        method: 'post',
+        params: {
+          accesstoken: this.$token
+        }
+      }).then((res) => {
+        this.authorList = res.data
+      }).catch((res) => {
+        console.log('UserCom.vue: ', res)
+      })
     }
   }
 </script>
