@@ -7,20 +7,21 @@
   &-body{
     padding: @padding-base * 4;
   }
-  &-base{
-    .ivu-card-head{
-      background-color: lighten(@background-color, 2.5%);
-    }
-  }
   &-nopad{
     .ivu-card-head{
-      padding:0!important;
+      padding:0;
     }
     .ivu-card-body{
-      padding: 0!important;
+      padding: 0;
     }
   }
   .border-top:first-child{
     border-top: none;
+  }
+  &-base{
+    .ivu-card-head{
+      background-color: lighten(@background-color, 2.5%);
+      padding: @padding-base * 2 @padding-base * 4;
+    }
   }
 }

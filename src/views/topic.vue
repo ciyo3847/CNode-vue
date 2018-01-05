@@ -14,8 +14,8 @@
         <div v-html='topic.content'></div>
       </Card>
       <Card class="ivu-card-base ivu-card-nopad">
-        <div slot="title" class="ivu-pad-m">
-          {{}} 回复
+        <div slot="title">
+          {{ topic.replies.length }} 回复
         </div>
         <div>
           <div v-for='(item, index) in topic.replies' class="ivu-pad-m border-top flex">
@@ -23,11 +23,11 @@
             <div class="flex-allspace">
               <p class="clearfix">
                 <span class="float-left">
-                  {{item.author.loginname}} {{ index + 1 }}楼 {{item.create_at}}
+                  {{ item.author.loginname }} {{ index + 1 }}楼 {{ item.create_at }}
                 </span>
                 <span class="float-right">
                   <Icon type="ios-heart-outline"></Icon>
-                  {{item.ups.length}}
+                  {{ item.ups.length }}
                   <Icon type="ios-redo" class="ivu-mar-l-xs" size="16"></Icon>
                 </span>
               </p>
