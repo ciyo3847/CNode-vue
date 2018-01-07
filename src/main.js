@@ -21,6 +21,7 @@ Vue.prototype.Url = {
   getTopicList: `${url}topics`,
   getTopic: `${url}topic/`,
   login: `${url}accesstoken`
+  // setReplice: `${url}post/topic/${topic_id}/replies`
 }
 
 /* eslint-disable no-new */

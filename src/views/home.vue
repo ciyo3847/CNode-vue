@@ -7,11 +7,6 @@
             <li v-for='(item, index) in tabList' :key='index' @click='opinionTab(item, index)' :class=' activeIndex == index ? "active" : "" '>
               {{ item | tabType }}
             </li>
-            <!-- <li class="active" @click='opinionTab("all")'>全部</li>
-            <li @click='opinionTab("good")'>精华</li>
-            <li @click='opinionTab("share")'><router-link>分享</li>
-            <li @click='opinionTab("ask")'>问答</li>
-            <li @click='opinionTab("job")'>招聘</li> -->
           </ul>
         </div>
         <div class="topic-list">
@@ -72,7 +67,8 @@
           1: 'good',
           2: 'share',
           3: 'ask',
-          4: 'job'
+          4: 'job',
+          5: 'dev'
         },
         page: 1,
         limit: 10,
@@ -80,11 +76,6 @@
         allList: []
       }
     },
-    // watch: {
-    //   loading() {
-    //     console.log(this.loading)
-    //   }
-    // },
     filters: {
       tabType (val) {
         switch (val) {
@@ -98,6 +89,8 @@
             return '问答'
           case 'job':
             return '招聘'
+          case 'dev':
+            return '客户端测试'
         }
       }
     },
@@ -131,10 +124,6 @@
         let clientH = document.documentElement.clientHeight
         let scrollT = document.documentElement.scrollTop || document.body.scrollTop
         let scrollH = document.documentElement.scrollHeight || document.body.scrollHeight
-        // console.log('clientH:' + clientH)
-        // console.log('scrollT:' + scrollT)
-        // console.log('scrollH:' + scrollH)
-        // console.log(clientH + scrollT)
         if (clientH + scrollT >= scrollH) {
           this.page += 1
           this.loading = !this.loading
