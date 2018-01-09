@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import home from '@/views/home'
 import topic from '@/views/topic'
 import author from '@/views/author'
+import authorIndex from '@/views/authorIndex'
+import createTopic from '@/views/createTopic'
+import attendTopic from '@/views/attendTopic'
 
 Vue.use(VueRouter)
 const routes = [
@@ -17,9 +20,25 @@ const routes = [
     component: topic
   },
   {
-    path: '/author/:authorId',
-    name: 'author',
-    component: author
+    path: '/author/:loginname',
+    component: author,
+    children: [
+      {
+        path: '/',
+        name: 'author',
+        component: authorIndex
+      },
+      {
+        path: 'createTopic',
+        name: 'createTopic',
+        component: createTopic
+      },
+      {
+        path: 'attendTopic',
+        name: 'attendTopic',
+        component: attendTopic
+      }
+    ]
   }
 ]
 

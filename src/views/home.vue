@@ -10,35 +10,10 @@
           </ul>
         </div>
         <div class="topic-list">
-          <div class="topic" v-for='item in allList'>
-            <Row :gutter='24' type="flex" align="middle">
-              <Col span='20'>
-                <ul class="li-col li-after-cicle">
-                  <li>{{ item.author.loginname }}</li>
-                  <li>{{ item.tab }}</li>
-                </ul>
-                <h2>
-                  <router-link :to='{ name: "topic", params: { topicId: item.id}}'>{{ item.title }}</router-link>
-                </h2>
-                <div class="topic-icon">
-                  <span>
-                    <Icon type="ios-eye ivu-mar-r-xs" size='16'></Icon>
-                    {{ item.visit_count }}
-                  </span>
-                  <span>
-                    <Icon type="chatbox ivu-mar-r-xs" size='14'></Icon>
-                    {{ item.reply_count }}
-                  </span>
-                </div>
-              </Col>
-              <Col span='4'>
-                <img class="topic-avatar-img" :src='item.author.avatar_url' alt="">
-              </Col>
-            </Row>
-          </div>
+          <detilTopic :list='allList' :isIndex='true'></detilTopic>
           <div class="demo-spin-col"  v-if='loading'>
             <Spin >
-             <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+             <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
               <div>Loading</div>
             </Spin>
           </div>
@@ -56,7 +31,11 @@
   }
 </style>
 <script>
+  import detilTopic from '../components/detilTopic'
   export default {
+    components: {
+      detilTopic
+    },
     data () {
       return {
         loading: true,
@@ -126,6 +105,7 @@
         let scrollH = document.documentElement.scrollHeight || document.body.scrollHeight
         if (clientH + scrollT >= scrollH) {
           this.page += 1
+          // console.log(clientH + scrollT + '>=' + scrollH);
           this.loading = !this.loading
           this.getData()
         }

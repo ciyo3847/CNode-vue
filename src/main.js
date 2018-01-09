@@ -20,7 +20,11 @@ let url = 'https://cnodejs.org/api/v1/'
 Vue.prototype.Url = {
   getTopicList: `${url}topics`,
   getTopic: `${url}topic/`,
-  login: `${url}accesstoken`
+  login: `${url}accesstoken`,
+  collectTopic: `${url}topic_collect/collect`,
+  cancelCollectTopic: `${url}topic_collect/de_collect`,
+  reply: `${url}reply/`,
+  getUser: `${url}user/`
   // setReplice: `${url}post/topic/${topic_id}/replies`
 }
 
