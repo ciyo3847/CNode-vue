@@ -6,6 +6,12 @@
         <a href="javascript:;" @click="readCreatMore()">查看更多</a>
       </div>
       <detilTopic :list='userList.recent_topics' :isIndex='false' :limit="creatLimit"></detilTopic>
+      <div class="demo-spin-col"  v-if='loading'>
+        <Spin >
+         <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
+          <div>Loading</div>
+        </Spin>
+      </div>
     </Card>
     <Card class="ivu-card-base ivu-card-nopad">
       <div slot="title" class="flex flex-sb">
@@ -13,6 +19,12 @@
         <a href="javascript:;" @click="readAttendMore()">查看更多</a>
       </div>
       <detilTopic :list='userList.recent_replies' :isIndex='false' :limit="attendLimited"></detilTopic>
+      <div class="demo-spin-col"  v-if='loading'>
+        <Spin >
+         <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
+          <div>Loading</div>
+        </Spin>
+      </div>
     </Card>
   </div>
 </template>
@@ -26,15 +38,23 @@
       return {
         userList: [],
         creatLimit: 4,
-        attendLimited: 4
+        attendLimited: 4,
+        loading: true
+      }
+    },
+    watch: {
+      '$route' (to, from) {
+        // this.userList = []
+        this.loading = !this.loading
+        this.getData()
       }
     },
     methods: {
       readCreatMore () {
-        this.$router.push({ path: 'createTopic' })
+        this.$router.push({ name: 'createTopic' })
       },
       readAttendMore () {
-        this.$router.push({ path: 'attendTopic' })
+        this.$router.push({ name: 'attendTopic' })
       },
       getData () {
         this.$http({
@@ -42,7 +62,8 @@
           method: 'get'
         }).then((res) => {
           this.userList = res.data.data
-          console.log(this.userList)
+          this.loading = !this.loading
+          // console.log(this.userList)
         }).catch((res) => {
           console.log('UserCom.vue: ', res)
         })

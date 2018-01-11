@@ -39,7 +39,7 @@
         type: Boolean
       },
       limit: {
-        type:Number,
+        type: Number,
         default: 0
       }
     }

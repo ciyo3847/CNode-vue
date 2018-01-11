@@ -10,6 +10,12 @@
           <li><Icon type="social-github" class="ivu-mar-r-xs"></Icon>{{ userList.githubUsername }}</li>
           <li>注册时间 {{ userList.create_at }}</li>
         </ul>
+        <!-- <div class="demo-spin-col"  v-if='loading'>
+          <Spin fix>
+           <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
+            <div>Loading</div>
+          </Spin>
+        </div> -->
       </Card>
       <router-view></router-view>
     </div>
@@ -26,6 +32,12 @@
         userList: []
       }
     },
+    watch: {
+      '$route' (to, from) {
+        // this.loading = !this.loading
+        this.getData()
+      }
+    },
     methods: {
       getData () {
         this.$http({
@@ -33,7 +45,8 @@
           method: 'get'
         }).then((res) => {
           this.userList = res.data.data
-          console.log(this.userList)
+          // this.loading = !this.loading
+          // console.log(this.userList)
         }).catch((res) => {
           console.log('UserCom.vue: ', res)
         })

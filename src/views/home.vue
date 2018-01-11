@@ -22,16 +22,9 @@
     </div>
   </div>
 </template>
-<style>
-  .demo-spin-col{
-    padding: 12px 0;
-  }
-  .demo-spin-icon-load{
-    animation: ani-demo-spin 1s linear infinite;
-  }
-</style>
 <script>
   import detilTopic from '../components/detilTopic'
+  import { mapState } from 'vuex'
   export default {
     components: {
       detilTopic
@@ -39,7 +32,7 @@
     data () {
       return {
         loading: true,
-        activeIndex: 0,
+        activeIndex: '',
         tab: '',
         tabList: {
           0: 'all',
@@ -73,10 +66,16 @@
         }
       }
     },
+    computed: mapState([
+      'tab',
+      'activeIndex'
+    ]),
     methods: {
       opinionTab (tab, index) {
-        this.tab = tab
-        this.page = 1
+        this.$store.commit('changeTab', {
+          tab: tab,
+          activeIndex: index
+        })
         this.allList = []
         this.activeIndex = index
         this.loading = !this.loading
@@ -87,7 +86,7 @@
           url: this.Url.getTopicList,
           method: 'get',
           params: {
-            tab: this.tab,
+            tab: this.$store.state.tab,
             page: this.page,
             limit: this.limit,
             mdrender: this.merender
@@ -112,7 +111,8 @@
       }
     },
     mounted () {
-      this.getData('all')
+      this.getData(this.$store.state.tab)
+      this.activeIndex = this.$store.state.activeIndex
       window.addEventListener('scroll', this.getDataMore)
     }
   }
