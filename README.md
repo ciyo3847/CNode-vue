@@ -2,6 +2,8 @@
 
 > A Vue.js project
 
+https://ciyo3847.github.io/CNode-vue/dist/index.html#/
+
 ## Build Setup
 
 ``` bash
