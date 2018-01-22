@@ -92,15 +92,6 @@ h2,h3,h4{
   padding: @padding-base 0 @padding-base * 2;
   font-weight: bold;
   word-wrap: break-word;
-  a{
-    color: @title-color;
-  }
-  a:visited{
-    color: lighten(@title-color, 20%)
-  }
-  a:hover,a:focus{
-    color: @primary-color;
-  }
 }
 p{
   color: @text-color;
@@ -120,7 +111,15 @@ img{
   vertical-align: middle;
   border: 0;
 }
-
+a{
+  color: @title-color;
+}
+a:visited{
+  color: lighten(@title-color, 20%)
+}
+a:hover,a:focus{
+  color: @primary-color;
+}
 //common-li
 ul.li-after-cicle{
   li{
@@ -180,7 +179,7 @@ li.after-no::after{
   display: block;
   overflow: hidden;
   font-size: 0;
-  height: 0
+  height: 0;
 }
 .clearfix{
   zoom: 1;
@@ -213,4 +212,10 @@ li.after-no::after{
 }
 .demo-spin-icon-load{
   animation: ani-demo-spin 1s linear infinite;
+}
+//common-white
+.white-nowrap{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

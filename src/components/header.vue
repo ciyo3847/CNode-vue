@@ -4,7 +4,7 @@
       <div class="nav">
         <img src="" alt="" class="logo">
         <ul class="li-col">
-          <li><router-link to='{name: home'>首页</router-link></li>
+          <li><router-link to='/'>首页</router-link></li>
           <li>发表</li>
           <li>消息</li>
         </ul>

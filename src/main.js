@@ -26,7 +26,8 @@ Vue.prototype.Url = {
   collectTopic: `${url}topic_collect/collect`,
   cancelCollectTopic: `${url}topic_collect/de_collect`,
   reply: `${url}reply/`,
-  getUser: `${url}user/`
+  getUser: `${url}user/`,
+  userCollectTopic: `${url}topic_collect/`
   // setReplice: `${url}post/topic/${topic_id}/replies`
 }
 
@@ -42,6 +43,10 @@ const store = new Vuex.Store({
     }
   }
 })
+
+localStorage.setItem('token', '')
+localStorage.setItem('loginname', '')
+localStorage.setItem('avatar_url', '')
 
 /* eslint-disable no-new */
 new Vue({
