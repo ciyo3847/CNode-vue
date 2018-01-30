@@ -6,6 +6,7 @@ import author from '@/views/author'
 import authorIndex from '@/views/authorIndex'
 import createTopic from '@/views/createTopic'
 import attendTopic from '@/views/attendTopic'
+import publish from '@/views/publish'
 
 Vue.use(VueRouter)
 const routes = [
@@ -39,6 +40,11 @@ const routes = [
         component: attendTopic
       }
     ]
+  },
+  {
+    path: '/publish',
+    name: 'publish',
+    component: publish
   }
 ]
 

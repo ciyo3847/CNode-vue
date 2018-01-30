@@ -24,7 +24,7 @@
         </Col>
         <Col :xs="24" :sm="7">
           <Card v-if='!token'>
-            <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+            <Form ref="formInline" :model="formInline" :rules="ruleInline">
               <FormItem prop="token" label="账户名">
                 <Input type="text" v-model="formInline.token" :placeholder="messageTip">
                 </Input>

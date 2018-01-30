@@ -28,7 +28,7 @@
         background-color: #fff;
         margin-right: 10px;
       }
-      .router-link-active{
+      .router-link-exact-active{
         color: @white-color;
       }
       >ul{
@@ -61,7 +61,7 @@
 }
 .content{
   margin-top: 55px;
-  min-height: 792px;
+  min-height: 822px;
   padding: @padding-base * 4;
 }
 .container{
@@ -114,9 +114,9 @@ img{
 a{
   color: @title-color;
 }
-a:visited{
-  color: lighten(@title-color, 20%)
-}
+// a:visited{
+//   color: lighten(@title-color, 20%)
+// }
 a:hover,a:focus{
   color: @primary-color;
 }
@@ -218,4 +218,11 @@ li.after-no::after{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+//markdown
+.v-note-wrapper{
+  min-height: 693px!important;
+  max-height: 693px;
+  overflow-y: hidden;
+  z-index: 2!important;
 }
