@@ -12,7 +12,7 @@
         </ul>
       </div>
       <div class="extra">
-        <a href="javscript:;">Write by Vue.js</a>
+        <a href="javascript:;">Write by Vue.js</a>
       </div>
     </div>
   </div>

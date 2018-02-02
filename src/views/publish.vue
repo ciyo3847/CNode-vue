@@ -82,7 +82,6 @@
         })
       },
       publishTopic () {
-        console.log('发布')
         this.$http({
           url: this.Url.publishTopic,
           method: 'post',
@@ -93,14 +92,8 @@
             content: this.publishContent
           }
         }).then((res) => {
-          if (res.data.code === 200) {
-            this.$Message.success('成功')
-            this.$router.push({name: 'topic', params: {topicId: res.topic_id}})
-          } else {
-            this.$Message.error(res.error_msg)
-          }
-        }).catch((res) => {
-          this.$Message.error(res.toString())
+          this.$Message.success('成功')
+          this.$router.push({name: 'topic', params: {topicId: res.data.topic_id}})
         })
       }
     },

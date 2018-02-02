@@ -12,6 +12,15 @@ export default {
   name: 'app',
   components: {
     top
+  },
+  mounted () {
+    let me = this
+    this.$http.interceptors.response.use(function (response) {
+      return response
+    }, function (error) {
+      me.$Message.error(error.response.data.error_msg)
+      return Promise.reject(error)
+    })
   }
 }
 </script>

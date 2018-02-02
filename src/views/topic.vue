@@ -7,7 +7,7 @@
           <div class="flex flex-center flex-sb">
             <ul class="li-after-cicle li-col ivu-font-xs">
               <li>发布于 {{topic.create_at}}</li>
-              <li>作者 <router-link :to='{ name: "author", params: { loginname: topic.author.loginname}}'>{{topic.author.loginname}}</router-link></li>
+              <li v-if="topic.loginname"><router-link :to='{ name: "author", params: { loginname: topic.loginname}}'>作者{{topic.loginname}}</router-link></li>
               <li>{{topic.reply_count}} 次浏览</li>
               <li>来自 {{topic.tab}}</li>
             </ul>
@@ -21,27 +21,40 @@
       </Card>
       <Card class="ivu-card-base ivu-card-nopad">
         <div slot="title">
-          {{ topic.replies.length }} 回复
+          {{ replayList ? replayList.length : '0'}} 回复
         </div>
-        <div v-if='topic.replies.length'>
-          <div v-for='(item, index) in topic.replies' class="ivu-pad-m border-top flex">
-            <img :src='item.author.avatar_url' alt="" class="replace-avatar-img ivu-mar-r-m">
+        <div v-if='replayList'>
+          <div v-for='(item, index) in replayList' class="ivu-pad-m border-top flex flex-wrap">
+            <img :src='item.avatar_url' alt="" class="replace-avatar-img ivu-mar-r-m">
             <div class="flex-allspace">
               <p class="clearfix">
                 <span class="float-left">
-                  {{ item.author.loginname }} {{ index + 1 }}楼 {{ item.create_at }}
+                  {{ item.loginname }} {{ index + 1 }}楼 {{ item.create_at }}
                 </span>
                 <span class="float-right">
                   <!-- <Icon type="trash-a" size="16" v-if='is_uped' @click="confimDeleteReplace(item.reply_id)"></Icon> -->
                   <a href="javascript:;" @click="replayAction(item.id)">
                     <Icon type="thumbsup" :class='`ivu-mar-l-xs ivu-icon-${item.is_uped ? "up" : "down"}`'></Icon>
                   </a>
-                  {{ item.ups.length }}
-                  <Icon type="ios-redo" class="ivu-mar-l-xs" size="16"></Icon>
+                  {{ item.ups_count }}
+                  <a href="javascript:;" @click="showReplay(index)">
+                    <Icon type="ios-redo" class="ivu-mar-l-xs" size="16"></Icon>
+                  </a>
                 </span>
               </p>
               <div v-html="item.content"></div>
             </div>
+            <!-- <Form :model="repliceContent" :rules="rule" ref="_replace" style="100%" v-if="item.replay_show" class="replay">
+              <FormItem prop="text"> -->
+              <div class="replay" v-if="item.replay_show">
+                <Input v-model="replay_content" placeholder="" type="textarea" :rows="4">
+                </Input>
+              <!-- </FormItem>
+              <FormItem> -->
+                <Button class="ivu-mar-t-m" type="primary" @click='_replaceCheck(item.id)'>回复</Button>
+              <!-- </FormItem>
+            </Form> -->
+              </div>
           </div>
         </div>
       </Card>
@@ -56,7 +69,7 @@
               </Input>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click='replaceCheck("replace")'>回复</Button>
+              <Button type="primary" @click='replaceCheck("replace, 0")'>回复</Button>
             </FormItem>
           </Form>
         </div>
@@ -81,6 +94,8 @@
         deleteReplaceModal: false,
         mdrender: false,
         topic: {},
+        replayList: [],
+        replay_content: '',
         repliceContent: {
           text: ''
         },
@@ -92,25 +107,26 @@
       }
     },
     methods: {
-      // confimDeleteReplace (id) {
-      //   this.reply_id = id
-      //   this.deleteReplaceModal = true
-      // },
-      // deleteReplace () {
-      //   this.$http({
-      //     url: `${this.Url.getTopic}${this.$route.params.topicId}/delete`,
-      //     methods: 'post',
-      //     data: {
-      //       accesstoken: this.$token,
-      //       reply_id: this.reply_id
-      //     }
-      //   }).then((res) => {
-      //     this.$Message.success('删除成功')
-      //     this.getData()
-      //   }).catch((res) => {
-      //     this.$Message.error(res.error_msg)
-      //   })
-      // },
+      showReplay (index) {
+        this.replay_content = ''
+        this.replay_content = `@${this.replayList[index].loginname} `
+        this.replayList.map((item, ind) => {
+          if (ind === index) {
+            item.replay_show = !item.replay_show
+          } else {
+            item.replay_show = false
+          }
+        })
+      },
+      _replaceCheck (id) {
+        this.replay_id = id
+        // console.log(this.replay_id)
+        if (!this.replay_content) {
+          this.$Message.error('回复内容不能为空')
+          return
+        }
+        this.setRplace()
+      },
       replayAction (id) {
         this.$http({
           url: `${this.Url.reply}${id}/ups`,
@@ -119,7 +135,6 @@
             accesstoken: this.$token
           }
         }).then((res) => {
-          // this.topic.replies[index].is_uped = !this.topic.replies[index].is_uped
           this.getData()
         }).catch((res) => {
           this.$Message.error('点赞失败')
@@ -168,14 +183,13 @@
           method: 'post',
           data: {
             accesstoken: this.$token,
-            content: this.repliceContent.text
+            content: this.repliceContent.text || this.replay_content,
+            replay_id: this.replay_id ? this.replay_id : ''
           }
         }).then((res) => {
           this.$Message.success('评论成功')
           this.getData()
           this.repliceContent.text = ''
-        }).catch((res) => {
-          this.$Message.error('评论失败')
         })
       },
       getData () {
@@ -187,10 +201,30 @@
             mdrender: this.merender
           }
         }).then((res) => {
-          this.topic = res.data.data
-          this.is_collect = this.topic.is_collect
-        }).catch((res) => {
-          console.log('UserCom.vue: ', res)
+          let data = res.data.data
+          this.topic.create_at = data.create_at
+          this.topic.title = data.title
+          this.topic.content = data.content
+          this.topic.loginname = data.author ? data.author.loginname : 'null'
+          this.topic.reply_count = data.reply_count
+          this.topic.tab = data.tab
+          if (data.replies) {
+            data.replies.forEach((item) => {
+              let obj = {}
+              obj.avatar_url = item.author.avatar_url
+              obj.loginname = item.author.loginname
+              obj.content = item.content
+              obj.create_at = item.create_at
+              obj.id = item.id
+              obj.is_uped = item.is_uped
+              obj.ups_count = item.ups.length
+              obj.replay_show = false
+              this.replayList.push(obj)
+            })
+          }
+          // console.log(this.topic)
+          // console.log(this.replayList)
+          this.is_collect = data.is_collect
         })
       }
     },
@@ -200,3 +234,8 @@
     }
   }
 </script>
+<style>
+  .replay{
+    width: 100%;
+  }
+</style>

@@ -26,7 +26,7 @@
           <Card v-if='!token'>
             <Form ref="formInline" :model="formInline" :rules="ruleInline">
               <FormItem prop="token" label="账户名">
-                <Input type="text" v-model="formInline.token" :placeholder="messageTip">
+                <Input type="text" v-model="formInline.token" :placeholder="'index'">
                 </Input>
               </FormItem>
                 <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
@@ -64,7 +64,7 @@
 </template>
 <script>
   import detilTopic from '../components/detilTopic'
-  import { mapState } from 'vuex'
+  // import { mapState } from 'vuex'
   export default {
     components: {
       detilTopic
@@ -72,8 +72,6 @@
     data () {
       return {
         loading: true,
-        activeIndex: '',
-        tab: '',
         tabList: {
           0: 'all',
           1: 'good',
@@ -92,9 +90,9 @@
           avatar_url: '',
           loginname: ''
         },
-        messageTip: this.$token,
+        // messageTip: this.$token,
         formInline: {
-          token: this.$token
+          token: 'index'
         },
         ruleInline: {
           token: [
@@ -124,10 +122,26 @@
         }
       }
     },
-    computed: mapState([
-      'tab',
-      'activeIndex'
-    ]),
+    // computed: mapState([
+    //   'tab',
+    //   'activeIndex'
+    // ]),
+    computed: {
+      tab: {
+        get: function () {
+          return this.$store.state.tab
+        },
+        set: function () {
+        }
+      },
+      activeIndex: {
+        get: function () {
+          return this.$store.state.activeIndex
+        },
+        set: function () {
+        }
+      }
+    },
     methods: {
       opinionTab (tab, index) {
         this.$store.commit('changeTab', {
@@ -152,8 +166,6 @@
         }).then((res) => {
           this.allList = this.allList.concat(res.data.data)
           this.loading = !this.loading
-        }).catch((res) => {
-          console.log('UserCom.vue: ', res)
         })
       },
       getDataMore () {
@@ -177,6 +189,9 @@
         })
       },
       login () {
+        if (this.formInline.token === 'index') {
+          this.formInline.token = this.$token
+        }
         this.$http({
           url: this.Url.login,
           method: 'post',
@@ -192,8 +207,6 @@
           this.authorList.avatar_url = localStorage.avatar_url
           this.token = localStorage.token
           this.getUserInfo()
-        }).catch((res) => {
-          console.log('UserCom.vue: ', res)
         })
       },
       getUserInfo () {
@@ -208,8 +221,6 @@
             obj.title = item.title
             _this.collectTopic.push(obj)
           })
-        }).catch((res) => {
-          console.log('UserCom.vue: ', res)
         })
       }
     },

@@ -39,8 +39,6 @@
           this.userList = res.data.data
           this.loading = !this.loading
           // console.log(this.userList)
-        }).catch((res) => {
-          console.log('UserCom.vue: ', res)
         })
       }
     },
