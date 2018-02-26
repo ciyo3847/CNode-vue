@@ -7,6 +7,9 @@ import authorIndex from '@/views/authorIndex'
 import createTopic from '@/views/createTopic'
 import attendTopic from '@/views/attendTopic'
 import publish from '@/views/publish'
+import message from '@/views/message'
+import me from '@/views/me'
+import login from '@/views/login'
 
 Vue.use(VueRouter)
 const routes = [
@@ -14,6 +17,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: home
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: login
   },
   {
     path: '/topic/:topicId',
@@ -44,7 +52,20 @@ const routes = [
   {
     path: '/publish',
     name: 'publish',
-    component: publish
+    component: publish,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/message',
+    name: 'message',
+    component: message,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/me',
+    name: 'me',
+    component: me,
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -59,4 +80,21 @@ var router = new VueRouter({
     }
   }
 })
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!localStorage.getItem('token')) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
 export default router

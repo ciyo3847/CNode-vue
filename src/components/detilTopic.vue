@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if='list'>
     <div class="topic" v-for='(item, index) in list' v-if='limit ? index < limit : true'>
       <Row :gutter='24' type="flex" align="middle">
         <Col span='20'>
@@ -29,6 +29,9 @@
         </Col>
       </Row>
     </div>
+    <div v-if='!list.length' class="nodata">
+      没有数据
+    </div>
   </div>
 </template>
 <script>
@@ -43,10 +46,11 @@
         default: 0
       }
     }
-    // data () {
-    //   return {
-    //     list: []
-    //   }
-    // }
   }
 </script>
+<style>
+  .nodata {
+    padding: 15px;
+    text-align: center;
+  }
+</style>

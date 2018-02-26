@@ -12,6 +12,10 @@ import 'iview/dist/styles/iview.css'
 import 'mavon-editor/dist/css/index.css'
 import './assets/styles/all.less'
 
+localStorage.setItem('token', '')
+localStorage.setItem('loginname', '')
+localStorage.setItem('avatar_url', '')
+
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$token = '66c267cd-a0a3-451c-858b-137c9f97998e'
@@ -47,10 +51,6 @@ const store = new Vuex.Store({
     }
   }
 })
-
-localStorage.setItem('token', '')
-localStorage.setItem('loginname', '')
-localStorage.setItem('avatar_url', '')
 
 /* eslint-disable no-new */
 new Vue({

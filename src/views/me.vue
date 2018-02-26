@@ -17,7 +17,34 @@
           </Spin>
         </div> -->
       </Card>
-      <router-view></router-view>
+      <div>
+        <Card class="ivu-card-base ivu-card-nopad">
+          <div slot="title" class="flex flex-sb">
+            <span>最近创建的话题</span>
+            <!-- <a href="javascript:;" @click="readCreatMore()">查看更多</a> -->
+          </div>
+          <detilTopic :list='userList.recent_topics' :isIndex='false'></detilTopic>
+          <div class="demo-spin-col"  v-if='loading'>
+            <Spin >
+             <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
+              <div>Loading</div>
+            </Spin>
+          </div>
+        </Card>
+        <Card class="ivu-card-base ivu-card-nopad">
+          <div slot="title" class="flex flex-sb">
+            <span>最近参加的话题</span>
+            <!-- <a href="javascript:;" @click="readAttendMore()">查看更多</a> -->
+          </div>
+          <detilTopic :list='userList.recent_replies' :isIndex='false'></detilTopic>
+          <div class="demo-spin-col"  v-if='loading'>
+            <Spin >
+             <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
+              <div>Loading</div>
+            </Spin>
+          </div>
+        </Card>
+      </div>
     </div>
   </div>
 </template>
@@ -30,7 +57,7 @@
     data () {
       return {
         userList: [],
-        loginname: ''
+        loading: true
       }
     },
     watch: {
@@ -42,11 +69,13 @@
     methods: {
       getData () {
         this.$http({
-          url: `${this.Url.getUser}${this.loginname}`,
+          url: `${this.Url.getUser}${localStorage.loginname}`,
           method: 'get'
         }).then((res) => {
           this.userList = res.data.data
-          // this.loading = !this.loading
+          this.loading = !this.loading
+          console.log(this.userList.recent_topics)
+          console.log('this.userList.recent_topics')
           // console.log(this.userList)
         }).catch((res) => {
           console.log('UserCom.vue: ', res)
@@ -54,7 +83,6 @@
       }
     },
     mounted () {
-      this.loginname = this.$route.params.loginname ? this.$route.params.loginname : localStorage.loginname
       this.getData()
     }
   }

@@ -69,7 +69,7 @@
               </Input>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click='replaceCheck("replace, 0")'>回复</Button>
+              <Button type="primary" @click='replaceCheck("replace")'>回复</Button>
             </FormItem>
           </Form>
         </div>
@@ -125,6 +125,15 @@
           this.$Message.error('回复内容不能为空')
           return
         }
+        if (!localStorage.token) {
+          this.$Modal.warning({
+            content: '登陆后才能评论',
+            onOk: () => {
+              this.$router.push({ name: 'login' })
+            }
+          })
+          return
+        }
         this.setRplace()
       },
       replayAction (id) {
@@ -170,6 +179,15 @@
         this.$refs[name].validate((valid) => {
           if (valid) {
             // this.$Message.success('Success!')
+            if (!localStorage.token) {
+              this.$Modal.warning({
+                content: '登陆后才能评论',
+                onOk: () => {
+                  this.$router.push({ name: 'login' })
+                }
+              })
+              return
+            }
             this.setRplace()
           } else {
             this.$Message.error('Fail!')
@@ -204,6 +222,7 @@
           let data = res.data.data
           this.topic.create_at = data.create_at
           this.topic.title = data.title
+          this.topic.id = data.id
           this.topic.content = data.content
           this.topic.loginname = data.author ? data.author.loginname : 'null'
           this.topic.reply_count = data.reply_count

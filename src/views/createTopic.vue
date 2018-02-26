@@ -32,8 +32,9 @@
     },
     methods: {
       getData () {
+        let loginname = this.$route.params.loginname ? this.$route.params.loginname : localStorage.loginname
         this.$http({
-          url: `${this.Url.getUser}${this.$route.params.loginname}`,
+          url: `${this.Url.getUser}${loginname}`,
           method: 'get'
         }).then((res) => {
           this.userList = res.data.data

@@ -90,7 +90,6 @@
           avatar_url: '',
           loginname: ''
         },
-        // messageTip: this.$token,
         formInline: {
           token: 'index'
         },
@@ -122,10 +121,6 @@
         }
       }
     },
-    // computed: mapState([
-    //   'tab',
-    //   'activeIndex'
-    // ]),
     computed: {
       tab: {
         get: function () {
